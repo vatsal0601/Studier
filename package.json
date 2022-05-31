@@ -1,0 +1,13 @@
+{
+	"name": "studier",
+	"version": "1.0.0",
+	"description": "",
+	"main": "",
+	"scripts": {
+		"client": "cd client && npm run dev",
+		"server": "cd server && npm run develop"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
+}
