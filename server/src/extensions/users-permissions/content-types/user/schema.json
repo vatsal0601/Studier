@@ -67,7 +67,7 @@
       "type": "string",
       "required": true
     },
-    "LastName": {
+    "lastName": {
       "type": "string",
       "required": true
     },
@@ -92,12 +92,12 @@
       "required": true
     },
     "avatar": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": false,
-      "required": true
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     },
     "blogs": {
       "type": "relation",
@@ -115,6 +115,18 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::social-link.social-link",
+      "mappedBy": "user"
+    },
+    "university": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::university.university",
+      "inversedBy": "users"
+    },
+    "bookmarks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::bookmark.bookmark",
       "mappedBy": "user"
     }
   }

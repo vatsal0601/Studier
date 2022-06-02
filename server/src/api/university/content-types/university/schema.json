@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "universities",
+  "info": {
+    "singularName": "university",
+    "pluralName": "universities",
+    "displayName": "University"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "domain": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "users": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "university"
+    }
+  }
+}

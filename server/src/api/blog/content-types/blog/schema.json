@@ -48,6 +48,12 @@
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "blogs"
+    },
+    "bookmark": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::bookmark.bookmark",
+      "inversedBy": "blog"
     }
   }
 }
