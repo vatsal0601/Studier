@@ -24,8 +24,8 @@ const Blogs = ({ data }) => {
 
 	return (
 		<>
-			<Head title={"Blog"} />
-			<main className="container space-y-5 lg:space-y-10">
+			<Head title="Blog" />
+			<main className="container space-y-5 pb-96 pt-24 lg:space-y-10 lg:pb-64 lg:pt-32">
 				<h1 className="text-4xl font-bold tracking-tighter text-zinc-900 lg:text-5xl">
 					Recent Blogs
 				</h1>

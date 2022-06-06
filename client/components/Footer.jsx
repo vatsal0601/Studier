@@ -2,7 +2,9 @@ import Link from "next/link";
 
 const pageLinks = [
 	{ name: "Home", link: "/" },
-	{ name: "Blog", link: "/blog" },
+	{ name: "Blogs", link: "/blog" },
+	{ name: "Projects", link: "/project" },
+	{ name: "Events", link: "/event" },
 ];
 
 const Footer = () => {
@@ -24,7 +26,7 @@ const Footer = () => {
 				</div>
 				<div className="space-y-3">
 					<h5 className="text-xl font-semibold tracking-tighter text-zinc-900 lg:text-2xl">
-						Page Links
+						Sitemap
 					</h5>
 					<ul className="space-y-1">
 						{pageLinks.map(({ name, link }, index) => (

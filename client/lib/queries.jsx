@@ -57,8 +57,7 @@ export const GetAllBlogSlugs = /* GraphQL */ `
 	}
 `;
 
-export const GetBlog = (slug) => {
-	return /* GraphQL */ `
+export const GetBlog = (slug) => /* GraphQL */ `
 		query {
 			blogs(filters: { slug: { eq: "${slug}" } }) {
 				data {
@@ -105,4 +104,127 @@ export const GetBlog = (slug) => {
 			}
 		}
 	`;
-};
+
+export const GetLogedInUserUsername = /* GraphQL */ `
+	query {
+		me {
+			username
+		}
+	}
+`;
+
+export const GetLogedInUserData = (username) => /* GraphQL */ `
+	query {
+		usersPermissionsUsers(filters: { username: { eq: "${username}" } }) {
+			data {
+				attributes {
+					firstName
+					lastName
+					username
+					email
+					type
+					avatar {
+						data {
+							attributes {
+								formats
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+`;
+
+export const LoginUser = (identifier, password) => /* GraphQL */ `
+	mutation {
+		login(input: { identifier: "${identifier}", password: "${password}" }) {
+			jwt
+		}
+	}
+`;
+
+export const GetAllUsernames = /* GraphQL */ `
+	query {
+		usersPermissionsUsers {
+			data {
+				attributes {
+					username
+				}
+			}
+		}
+	}
+`;
+
+export const GetUser = (username) => /* GraphQL */ `
+	query {
+		usersPermissionsUsers(filters: { username: { eq: "${username}" } }) {
+			data {
+				attributes {
+					firstName
+					lastName
+					username
+					email
+					type
+					startYear
+					graduationYear
+					branch
+					bio
+					university {
+						data {
+							attributes {
+								name
+							}
+						}
+					}
+					avatar {
+						data {
+							attributes {
+								formats
+							}
+						}
+					}
+					socialLinks {
+						data {
+							attributes {
+								appName
+								url
+							}
+						}
+					}
+					interests {
+						data {
+							attributes {
+								interest
+							}
+						}
+					}
+					blogs {
+						data {
+							attributes {
+								title
+								slug
+								excerpt
+								createdAt
+								tags {
+									data {
+										attributes {
+											tag
+										}
+									}
+								}
+								cover {
+									data {
+										attributes {
+											formats
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+`;

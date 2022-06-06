@@ -8,9 +8,9 @@ class MyDocument extends Document {
 
 	render() {
 		return (
-			<Html lang="en" className="scroll-smooth">
+			<Html lang="en" className="h-full scroll-smooth">
 				<Head />
-				<body className="relative min-h-screen pb-80 pt-24 subpixel-antialiased transition-colors duration-300 selection:bg-blue-100 lg:pb-56 lg:pt-32">
+				<body className="relative min-h-full subpixel-antialiased transition-colors duration-300 selection:bg-blue-100">
 					<Main />
 					<NextScript />
 				</body>

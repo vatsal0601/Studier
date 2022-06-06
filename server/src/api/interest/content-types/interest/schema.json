@@ -12,7 +12,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Interest": {
+    "interest": {
       "type": "string",
       "required": true
     },
