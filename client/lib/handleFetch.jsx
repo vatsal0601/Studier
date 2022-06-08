@@ -1,6 +1,10 @@
+import getConfig from "next/config";
+
+const { publicRuntimeConfig } = getConfig();
+
 export const handleFetch = async (query, options = {}) => {
 	try {
-		const req = await fetch("http://localhost:1337/graphql", {
+		const req = await fetch(publicRuntimeConfig.BACKEND_URL, {
 			method: "POST",
 			headers: { "Content-Type": "application/json", ...options },
 			body: JSON.stringify({ query }),

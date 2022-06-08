@@ -61,6 +61,7 @@ export const GetBlog = (slug) => /* GraphQL */ `
 		query {
 			blogs(filters: { slug: { eq: "${slug}" } }) {
 				data {
+					id
 					attributes {
 						title
 						excerpt
@@ -99,13 +100,18 @@ export const GetBlog = (slug) => /* GraphQL */ `
 								}
 							}
 						}
+						likes {
+							data {
+								id
+							}
+						}
 					}
 				}
 			}
 		}
 	`;
 
-export const GetLogedInUserUsername = /* GraphQL */ `
+export const GetLoggedInUserUsername = /* GraphQL */ `
 	query {
 		me {
 			username
@@ -113,10 +119,11 @@ export const GetLogedInUserUsername = /* GraphQL */ `
 	}
 `;
 
-export const GetLogedInUserData = (username) => /* GraphQL */ `
+export const GetLoggedInUserData = (username) => /* GraphQL */ `
 	query {
 		usersPermissionsUsers(filters: { username: { eq: "${username}" } }) {
 			data {
+				id
 				attributes {
 					firstName
 					lastName
@@ -224,6 +231,80 @@ export const GetUser = (username) => /* GraphQL */ `
 						}
 					}
 				}
+			}
+		}
+	}
+`;
+
+export const GetListOfUniversities = /* GraphQL */ `
+	query {
+		universities {
+			data {
+				attributes {
+					name
+					domain
+				}
+			}
+		}
+	}
+`;
+
+export const GetUserDataOfBlog = (slug, username) => /* GraphQL */ `
+	query {
+		blogs(filters: { slug: { eq: "${slug}" } }) {
+			data {
+				attributes {
+					likes(filters: { user: { username: { eq: "${username}" } } }) {
+						data {
+							id
+						}
+					}
+					bookmarks(filters: { user: { username: { eq: "${username}" } } }) {
+						data {
+							id
+						}
+					}
+				}
+			}
+		}
+	}
+`;
+
+export const CreateBookmark = (blogId, userId) => /* GraphQL */ `
+	mutation {
+		createBookmark(data: { blog: ${blogId}, user: ${userId} }) {
+			data {
+				id
+			}
+		}
+	}
+`;
+
+export const DeleteBookmark = (bookmarkId) => /* GraphQL */ `
+	mutation {
+		deleteBookmark(id: ${bookmarkId}) {
+			data {
+				id
+			}
+		}
+	}
+`;
+
+export const CreateLike = (blogId, userId) => /* GraphQL */ `
+	mutation {
+		createLike(data: { blog: ${blogId}, user: ${userId} }) {
+			data {
+				id
+			}
+		}
+	}
+`;
+
+export const DeleteLike = (likeId) => /* GraphQL */ `
+	mutation {
+		deleteLike(id: ${likeId}) {
+			data {
+				id
 			}
 		}
 	}

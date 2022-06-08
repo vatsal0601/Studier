@@ -123,12 +123,6 @@
       "target": "api::university.university",
       "inversedBy": "users"
     },
-    "bookmarks": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::bookmark.bookmark",
-      "mappedBy": "user"
-    },
     "type": {
       "type": "enumeration",
       "enum": [
@@ -137,6 +131,18 @@
       ],
       "required": true,
       "default": "Student"
+    },
+    "bookmarks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::bookmark.bookmark",
+      "mappedBy": "user"
+    },
+    "likes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::like.like",
+      "mappedBy": "user"
     }
   }
 }

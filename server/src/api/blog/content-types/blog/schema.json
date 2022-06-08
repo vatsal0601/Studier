@@ -49,11 +49,17 @@
       "target": "plugin::users-permissions.user",
       "inversedBy": "blogs"
     },
-    "bookmark": {
+    "bookmarks": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::bookmark.bookmark",
-      "inversedBy": "blog"
+      "mappedBy": "blog"
+    },
+    "likes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::like.like",
+      "mappedBy": "blog"
     }
   }
 }

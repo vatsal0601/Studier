@@ -19,7 +19,6 @@ const Login = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const { user, setUser } = useContext(UserContext);
-
 	const router = useRouter();
 
 	const handleSubmit = (e) => {
@@ -37,7 +36,10 @@ const Login = () => {
 			if (jwtData) {
 				setToken(jwtData.login.jwt);
 				const userData = await getUserFromLocalCookie();
-				setUser(userData.usersPermissionsUsers.data[0].attributes);
+				setUser({
+					id: userData.usersPermissionsUsers.data[0].id,
+					...userData.usersPermissionsUsers.data[0].attributes,
+				});
 				router.push("/");
 			} else {
 				setIsLoginError(true);
@@ -51,7 +53,7 @@ const Login = () => {
 		<>
 			<Head title="Login" />
 			<main className="container pb-96 pt-24 lg:pb-64 lg:pt-32">
-				<div className="w-full space-y-5 lg:space-y-10">
+				<div className="space-y-5 lg:space-y-10">
 					<h1 className="text-4xl font-bold tracking-tighter text-zinc-900 lg:text-5xl">
 						Login
 					</h1>

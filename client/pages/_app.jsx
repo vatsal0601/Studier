@@ -14,7 +14,7 @@ const App = ({ Component, pageProps }) => {
 	const [user, setUser] = useState(null);
 
 	const toggle = () => {
-		setIsOpen(!isOpen);
+		setIsOpen((isOpen) => !isOpen);
 	};
 
 	useEffect(() => {
@@ -35,7 +35,10 @@ const App = ({ Component, pageProps }) => {
 		const fetchUser = async () => {
 			const userData = await getUserFromLocalCookie();
 			if (userData) {
-				setUser(userData.usersPermissionsUsers.data[0].attributes);
+				setUser({
+					id: userData.usersPermissionsUsers.data[0].id,
+					...userData.usersPermissionsUsers.data[0].attributes,
+				});
 			}
 			setIsLoading(false);
 		};

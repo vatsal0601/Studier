@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "bookmarks",
+  "collectionName": "likes",
   "info": {
-    "singularName": "bookmark",
-    "pluralName": "bookmarks",
-    "displayName": "Bookmark",
+    "singularName": "like",
+    "pluralName": "likes",
+    "displayName": "Like",
     "description": ""
   },
   "options": {
@@ -16,13 +16,13 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::blog.blog",
-      "inversedBy": "bookmarks"
+      "inversedBy": "likes"
     },
     "user": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "bookmarks"
+      "inversedBy": "likes"
     }
   }
 }

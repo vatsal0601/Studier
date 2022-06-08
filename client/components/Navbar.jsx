@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import UserContext from "@lib/userContext";
+import ProgressBar from "./Progressbar";
 import { useRouter } from "next/router";
 import { useState, useEffect, useContext } from "react";
 import { MenuAlt2Icon } from "@heroicons/react/solid";
@@ -39,6 +40,7 @@ const Navbar = ({ toggle }) => {
 			className={`sticky top-0 z-40 w-full flex-shrink-0 border-b bg-white ${
 				isScrolled ? "border-zinc-200" : "border-transparent"
 			} transition duration-300 print:hidden`}>
+			<ProgressBar />
 			<nav className="container flex items-center justify-between py-3" role="navigation">
 				<div className="flex items-center gap-10 lg:gap-16">
 					<Link href="/">
