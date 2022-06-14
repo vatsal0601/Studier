@@ -16,8 +16,9 @@ const Footer = () => {
 						<h4 className="text-2xl font-bold tracking-tighter text-zinc-900 lg:text-3xl">
 							Studier
 						</h4>
-						<p className="max-w-xs text-zinc-600 lg:max-w-sm lg:text-lg">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam minus
+						<p className="max-w-sm leading-tight text-zinc-600 lg:max-w-sm lg:text-lg lg:leading-tight">
+							A portal for easily connecting and collaborating with other people from
+							your university.
 						</p>
 					</div>
 					<p className="text-sm font-light text-zinc-600 lg:text-base">

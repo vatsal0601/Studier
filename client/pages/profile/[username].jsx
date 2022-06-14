@@ -8,8 +8,6 @@ import { GetAllUsernames, GetUser } from "@lib/queries";
 
 const Profile = ({ user }) => {
 	const [isAvatarLoading, setIsAvatarLoading] = useState(true);
-	const formatStartYear = new Date(user.startYear);
-	const formatGraduationYear = new Date(user.graduationYear);
 
 	return (
 		<>
@@ -23,11 +21,7 @@ const Profile = ({ user }) => {
 									isAvatarLoading && "animate-pulse"
 								}`}>
 								<Image
-									src={`http://localhost:1337${
-										user.avatar.data.attributes.formats.small
-											? user.avatar.data.attributes.formats.small.url
-											: user.avatar.data.attributes.formats.thumbnail.url
-									}`}
+									src={`http://localhost:1337${user.avatar.data.attributes.url}`}
 									alt={user.username}
 									width="1"
 									height="1"
@@ -64,23 +58,17 @@ const Profile = ({ user }) => {
 							<div className="space-x-1 text-center text-zinc-600 lg:text-left lg:text-lg">
 								<span>{user.university.data.attributes.name}</span>
 								<span>
-									[
-									{formatStartYear.toLocaleDateString("en-US", {
-										year: "numeric",
-										month: "2-digit",
-									})}{" "}
-									&#8212;{" "}
-									{formatGraduationYear.toLocaleDateString("en-US", {
-										year: "numeric",
-										month: "2-digit",
-									})}
-									]
+									[{user.startYear} &#8212; {user.graduationYear}]
 								</span>
 							</div>
 							<div className="space-x-3 text-center text-blue-600 lg:space-x-5 lg:text-left lg:text-lg">
 								{user.socialLinks.data.length > 0 &&
 									user.socialLinks.data.map((socialLink, index) => (
-										<a href={socialLink.attributes.url} key={index}>
+										<a
+											target="_blank"
+											rel="noopener noreferrer"
+											href={socialLink.attributes.url}
+											key={index}>
 											{socialLink.attributes.appName}
 										</a>
 									))}
@@ -131,7 +119,7 @@ const Profile = ({ user }) => {
 export default Profile;
 
 export const getStaticPaths = async () => {
-	const data = await handleFetch(GetAllUsernames);
+	const data = await handleFetch({ query: GetAllUsernames });
 	const usernamesData = data.usersPermissionsUsers.data;
 	const usernames = usernamesData.map((username) => ({
 		params: {
@@ -148,7 +136,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
 	const { username } = context.params;
 
-	const data = await handleFetch(GetUser(username));
+	const data = await handleFetch({ query: GetUser, variables: { username } });
 	const user = data.usersPermissionsUsers.data[0].attributes;
 
 	return {

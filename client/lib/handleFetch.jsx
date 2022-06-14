@@ -1,16 +1,25 @@
 import getConfig from "next/config";
+import axios from "axios";
 
 const { publicRuntimeConfig } = getConfig();
 
-export const handleFetch = async (query, options = {}) => {
+export const handleFetch = async ({ query, options, variables, formData }) => {
+	let body;
+
+	if (formData) body = formData;
+	else {
+		if (variables) body = { query, variables };
+		else body = { query };
+	}
+
 	try {
-		const req = await fetch(publicRuntimeConfig.BACKEND_URL, {
-			method: "POST",
-			headers: { "Content-Type": "application/json", ...options },
-			body: JSON.stringify({ query }),
+		const req = await axios.post(publicRuntimeConfig.BACKEND_URL, body, {
+			headers: {
+				"Content-Type": "application/json",
+				...options,
+			},
 		});
-		const data = await req.json();
-		return data.data;
+		return req.data.data;
 	} catch (err) {
 		console.error(err);
 		return null;

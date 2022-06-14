@@ -39,7 +39,10 @@ const Blog = ({ blog }) => {
 	useEffect(() => {
 		if (user) {
 			const fetchData = async () => {
-				const userData = await handleFetch(GetUserDataOfBlog(blogData.slug, user.username));
+				const userData = await handleFetch({
+					query: GetUserDataOfBlog,
+					variables: { slug: blogData.slug, username: user.username },
+				});
 				userData = userData.blogs.data[0].attributes;
 				if (userData.bookmarks.data.length > 0) {
 					setIsBookmarked(+userData.bookmarks.data[0].id);
@@ -63,10 +66,16 @@ const Blog = ({ blog }) => {
 		const jwt = getTokenFromLocalCookie();
 		if (isBookmarked) {
 			try {
-				await handleFetch(DeleteBookmark(isBookmarked), {
-					Authorization: `Bearer ${jwt}`,
+				await handleFetch({
+					query: DeleteBookmark,
+					options: { Authorization: `Bearer ${jwt}` },
+					variables: { bookmarkId: isBookmarked },
 				});
 				setIsBookmarked(null);
+				setToastList((toastList) => [
+					...toastList,
+					{ type: "success", message: "Bookmark added successfully" },
+				]);
 			} catch (err) {
 				console.log(err);
 			} finally {
@@ -74,8 +83,10 @@ const Blog = ({ blog }) => {
 			}
 		} else {
 			try {
-				const bookmarkId = await handleFetch(CreateBookmark(+blog.id, +user.id), {
-					Authorization: `Bearer ${jwt}`,
+				const bookmarkId = await handleFetch({
+					query: CreateBookmark,
+					options: { Authorization: `Bearer ${jwt}` },
+					variables: { blogId: +blog.id, userId: +user.id },
 				});
 				setIsBookmarked(+bookmarkId.createBookmark.data.id);
 			} catch (err) {
@@ -91,8 +102,10 @@ const Blog = ({ blog }) => {
 		const jwt = getTokenFromLocalCookie();
 		if (isLiked) {
 			try {
-				await handleFetch(DeleteLike(isLiked), {
-					Authorization: `Bearer ${jwt}`,
+				await handleFetch({
+					query: DeleteLike,
+					options: { Authorization: `Bearer ${jwt}` },
+					variables: { likeId: isLiked },
 				});
 				setIsLiked(null);
 				setBlogLikesNumber((blogLikesNumber) => (blogLikesNumber -= 1));
@@ -103,8 +116,10 @@ const Blog = ({ blog }) => {
 			}
 		} else {
 			try {
-				const likeId = await handleFetch(CreateLike(+blog.id, +user.id), {
-					Authorization: `Bearer ${jwt}`,
+				const likeId = await handleFetch({
+					query: CreateLike,
+					options: { Authorization: `Bearer ${jwt}` },
+					variables: { blogId: +blog.id, userId: +user.id },
 				});
 				setIsLiked(+likeId.createLike.data.id);
 				setBlogLikesNumber((blogLikesNumber) => (blogLikesNumber += 1));
@@ -216,7 +231,7 @@ const Blog = ({ blog }) => {
 								isCoverLoading && "animate-pulse"
 							}`}>
 							<Image
-								src={`http://localhost:1337${blogData.cover.data.attributes.formats.large.url}`}
+								src={`http://localhost:1337${blogData.cover.data.attributes.url}`}
 								alt={blogData.title}
 								width="16"
 								height="9"
@@ -258,7 +273,7 @@ const Blog = ({ blog }) => {
 export default Blog;
 
 export const getStaticPaths = async () => {
-	const data = await handleFetch(GetAllBlogSlugs);
+	const data = await handleFetch({ query: GetAllBlogSlugs });
 	const blogs = data.blogs.data;
 	const slugs = blogs.map((slug) => ({
 		params: {
@@ -275,7 +290,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
 	const { slug } = context.params;
 
-	const data = await handleFetch(GetBlog(slug));
+	const data = await handleFetch({ query: GetBlog, variables: { slug } });
 	const blog = data.blogs.data[0];
 
 	return {

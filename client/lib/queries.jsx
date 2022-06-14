@@ -1,6 +1,6 @@
 export const GetAllBlogs = /* GraphQL */ `
 	query {
-		blogs(sort: "createdAt:desc") {
+		blogs(sort: "createdAt:desc", pagination: { limit: 4 }) {
 			data {
 				attributes {
 					title
@@ -57,59 +57,57 @@ export const GetAllBlogSlugs = /* GraphQL */ `
 	}
 `;
 
-export const GetBlog = (slug) => /* GraphQL */ `
-		query {
-			blogs(filters: { slug: { eq: "${slug}" } }) {
-				data {
-					id
-					attributes {
-						title
-						excerpt
-						slug
-						content
-						cover {
-							data {
-								attributes {
-									name
-									formats
-								}
+export const GetBlog = /* GraphQL */ `
+	query ($slug: String!) {
+		blogs(filters: { slug: { eq: $slug } }) {
+			data {
+				id
+				attributes {
+					title
+					excerpt
+					slug
+					content
+					cover {
+						data {
+							attributes {
+								url
 							}
 						}
-						createdAt
-						user {
-							data {
-								attributes {
-									firstName
-									lastName
-									username
-									avatar {
-										data {
-											attributes {
-												name
-												formats
-											}
+					}
+					createdAt
+					user {
+						data {
+							attributes {
+								firstName
+								lastName
+								username
+								avatar {
+									data {
+										attributes {
+											formats
 										}
 									}
 								}
 							}
 						}
-						tags {
-							data {
-								attributes {
-									tag
-								}
+					}
+					tags {
+						data {
+							attributes {
+								tag
 							}
 						}
-						likes {
-							data {
-								id
-							}
+					}
+					likes {
+						data {
+							id
 						}
 					}
 				}
 			}
 		}
-	`;
+	}
+`;
 
 export const GetLoggedInUserUsername = /* GraphQL */ `
 	query {
@@ -119,9 +117,9 @@ export const GetLoggedInUserUsername = /* GraphQL */ `
 	}
 `;
 
-export const GetLoggedInUserData = (username) => /* GraphQL */ `
-	query {
-		usersPermissionsUsers(filters: { username: { eq: "${username}" } }) {
+export const GetLoggedInUserData = /* GraphQL */ `
+	query ($username: String!) {
+		usersPermissionsUsers(filters: { username: { eq: $username } }) {
 			data {
 				id
 				attributes {
@@ -143,9 +141,9 @@ export const GetLoggedInUserData = (username) => /* GraphQL */ `
 	}
 `;
 
-export const LoginUser = (identifier, password) => /* GraphQL */ `
-	mutation {
-		login(input: { identifier: "${identifier}", password: "${password}" }) {
+export const LoginUser = /* GraphQL */ `
+	mutation ($identifier: String!, $password: String!) {
+		login(input: { identifier: $identifier, password: $password }) {
 			jwt
 		}
 	}
@@ -163,9 +161,9 @@ export const GetAllUsernames = /* GraphQL */ `
 	}
 `;
 
-export const GetUser = (username) => /* GraphQL */ `
-	query {
-		usersPermissionsUsers(filters: { username: { eq: "${username}" } }) {
+export const GetUser = /* GraphQL */ `
+	query ($username: String!) {
+		usersPermissionsUsers(filters: { username: { eq: $username } }) {
 			data {
 				attributes {
 					firstName
@@ -187,7 +185,7 @@ export const GetUser = (username) => /* GraphQL */ `
 					avatar {
 						data {
 							attributes {
-								formats
+								url
 							}
 						}
 					}
@@ -240,6 +238,7 @@ export const GetListOfUniversities = /* GraphQL */ `
 	query {
 		universities {
 			data {
+				id
 				attributes {
 					name
 					domain
@@ -249,17 +248,17 @@ export const GetListOfUniversities = /* GraphQL */ `
 	}
 `;
 
-export const GetUserDataOfBlog = (slug, username) => /* GraphQL */ `
-	query {
-		blogs(filters: { slug: { eq: "${slug}" } }) {
+export const GetUserDataOfBlog = /* GraphQL */ `
+	query ($slug: String!, $username: String!) {
+		blogs(filters: { slug: { eq: $slug } }) {
 			data {
 				attributes {
-					likes(filters: { user: { username: { eq: "${username}" } } }) {
+					likes(filters: { user: { username: { eq: $username } } }) {
 						data {
 							id
 						}
 					}
-					bookmarks(filters: { user: { username: { eq: "${username}" } } }) {
+					bookmarks(filters: { user: { username: { eq: $username } } }) {
 						data {
 							id
 						}
@@ -270,9 +269,9 @@ export const GetUserDataOfBlog = (slug, username) => /* GraphQL */ `
 	}
 `;
 
-export const CreateBookmark = (blogId, userId) => /* GraphQL */ `
-	mutation {
-		createBookmark(data: { blog: ${blogId}, user: ${userId} }) {
+export const CreateBookmark = /* GraphQL */ `
+	mutation ($blogId: ID!, $userId: ID!) {
+		createBookmark(data: { blog: $blogId, user: $userId }) {
 			data {
 				id
 			}
@@ -280,9 +279,9 @@ export const CreateBookmark = (blogId, userId) => /* GraphQL */ `
 	}
 `;
 
-export const DeleteBookmark = (bookmarkId) => /* GraphQL */ `
-	mutation {
-		deleteBookmark(id: ${bookmarkId}) {
+export const DeleteBookmark = /* GraphQL */ `
+	mutation ($bookmarkId: ID!) {
+		deleteBookmark(id: $bookmarkId) {
 			data {
 				id
 			}
@@ -290,9 +289,9 @@ export const DeleteBookmark = (bookmarkId) => /* GraphQL */ `
 	}
 `;
 
-export const CreateLike = (blogId, userId) => /* GraphQL */ `
-	mutation {
-		createLike(data: { blog: ${blogId}, user: ${userId} }) {
+export const CreateLike = /* GraphQL */ `
+	mutation ($blogId: ID!, $userId: ID!) {
+		createLike(data: { blog: $blogId, user: $userId }) {
 			data {
 				id
 			}
@@ -300,11 +299,90 @@ export const CreateLike = (blogId, userId) => /* GraphQL */ `
 	}
 `;
 
-export const DeleteLike = (likeId) => /* GraphQL */ `
-	mutation {
-		deleteLike(id: ${likeId}) {
+export const DeleteLike = /* GraphQL */ `
+	mutation ($likeId: ID!) {
+		deleteLike(id: $likeId) {
 			data {
 				id
+			}
+		}
+	}
+`;
+
+export const CheckUsername = /* GraphQL */ `
+	query ($username: String!) {
+		usersPermissionsUsers(filters: { username: { eq: $username } }) {
+			data {
+				attributes {
+					username
+				}
+			}
+		}
+	}
+`;
+
+export const CheckEmail = /* GraphQL */ `
+	query ($email: String) {
+		usersPermissionsUsers(filters: { email: { eq: $email } }) {
+			data {
+				attributes {
+					email
+				}
+			}
+		}
+	}
+`;
+
+export const UploadImage = /* GraphQL */ `
+	mutation ($file: Upload!) {
+		upload(file: $file) {
+			data {
+				id
+			}
+		}
+	}
+`;
+
+export const CreateUser = /* GraphQL */ `
+	mutation (
+		$username: String!
+		$email: String!
+		$password: String!
+		$firstName: String!
+		$lastName: String!
+		$enrollmentNumber: String!
+		$branch: String!
+		$bio: String!
+		$startYear: String!
+		$graduationYear: String!
+		$university: ID!
+		$type: ENUM_USERSPERMISSIONSUSER_TYPE!
+		$confirmed: Boolean!
+		$avatar: ID!
+	) {
+		createUsersPermissionsUser(
+			data: {
+				username: $username
+				email: $email
+				password: $password
+				firstName: $firstName
+				lastName: $lastName
+				enrollmentNumber: $enrollmentNumber
+				branch: $branch
+				bio: $bio
+				startYear: $startYear
+				graduationYear: $graduationYear
+				university: $university
+				type: $type
+				confirmed: $confirmed
+				avatar: $avatar
+			}
+		) {
+			data {
+				id
+				attributes {
+					username
+				}
 			}
 		}
 	}

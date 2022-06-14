@@ -83,14 +83,6 @@
     "bio": {
       "type": "text"
     },
-    "startYear": {
-      "type": "date",
-      "required": true
-    },
-    "graduationYear": {
-      "type": "date",
-      "required": true
-    },
     "avatar": {
       "type": "media",
       "multiple": false,
@@ -143,6 +135,14 @@
       "relation": "oneToMany",
       "target": "api::like.like",
       "mappedBy": "user"
+    },
+    "startYear": {
+      "type": "string",
+      "required": true
+    },
+    "graduationYear": {
+      "type": "string",
+      "required": true
     }
   }
 }

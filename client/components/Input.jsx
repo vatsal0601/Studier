@@ -1,38 +1,58 @@
-import { ExclamationCircleIcon } from "@heroicons/react/solid";
 import Link from "next/link";
+import { useState } from "react";
+import { ExclamationCircleIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 
-const Input = ({ setInput, isInputError, type, name, placeholder, isRequired, isLogin }) => {
+const Input = ({ type, name, placeholder, isRequired, forgotPassword, input, handleEmail }) => {
+	const { value, setValue, errorMessage } = input;
+	const [passwordType, setPasswordType] = useState("password");
+
 	return (
 		<div>
 			<label
 				htmlFor={name}
 				className={`${
-					isLogin ? "flex justify-between" : "block"
+					forgotPassword ? "flex justify-between" : "block"
 				} w-full text-xs font-semibold text-zinc-600 lg:text-sm`}>
 				<span>
 					{placeholder} {isRequired && <span className="text-red-600">*</span>}
 				</span>
-				{isLogin && (
+				{forgotPassword && (
 					<span className="font-normal">
 						<Link href="/forgot">
-							<a className="font-medium text-blue-600 hover:underline">
+							<a tabIndex={-1} className="font-medium text-blue-600 hover:underline">
 								Forgot Password?
 							</a>
 						</Link>
 					</span>
 				)}
 			</label>
-			<input
-				type={type}
-				name={name}
-				placeholder={placeholder}
-				onChange={(e) => setInput(e.target.value)}
-				className="focus:ring-3 w-full truncate rounded-lg border-zinc-300 p-3 text-sm placeholder-zinc-400 ring-blue-600 transition-all focus:outline-none lg:text-base"
-			/>
-			{isInputError && (
+			<div className={forgotPassword ? "relative" : null}>
+				<input
+					type={forgotPassword ? passwordType : type}
+					name={name}
+					placeholder={placeholder}
+					onChange={(e) => setValue(e.target.value)}
+					value={value}
+					onBlur={handleEmail ? handleEmail : () => {}}
+					className="focus:ring-3 w-full truncate rounded-lg border-zinc-300 p-3 text-sm placeholder-zinc-400 ring-blue-600 transition-all focus:outline-none lg:text-base"
+				/>
+				{forgotPassword &&
+					(passwordType === "password" ? (
+						<EyeIcon
+							onClick={() => setPasswordType("text")}
+							className="absolute top-1/2 right-5 h-4 w-4 -translate-y-1/2 transform cursor-pointer text-zinc-900 transition-colors active:text-blue-600 lg:h-5 lg:w-5"
+						/>
+					) : (
+						<EyeOffIcon
+							onClick={() => setPasswordType("password")}
+							className="absolute top-1/2 right-5 h-4 w-4 -translate-y-1/2 transform cursor-pointer text-zinc-900 transition-colors active:text-blue-600 lg:h-5 lg:w-5"
+						/>
+					))}
+			</div>
+			{errorMessage && (
 				<p className="inline-flex items-center gap-1 text-xs font-semibold text-red-600 lg:text-sm">
 					<ExclamationCircleIcon className="h-4 w-4 lg:h-5 lg:w-5" />
-					Please enter a valid value
+					{errorMessage}
 				</p>
 			)}
 		</div>

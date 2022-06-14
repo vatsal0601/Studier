@@ -11,13 +11,19 @@ export const getUserFromLocalCookie = async () => {
 	const jwt = getTokenFromLocalCookie();
 	if (jwt) {
 		const getUsername = async () => {
-			const usernameData = await handleFetch(GetLoggedInUserUsername, {
-				Authorization: `Bearer ${jwt}`,
+			const usernameData = await handleFetch({
+				query: GetLoggedInUserUsername,
+				options: {
+					Authorization: `Bearer ${jwt}`,
+				},
 			});
 			return usernameData?.me?.username;
 		};
 		const getUserData = async (username) => {
-			const userData = await handleFetch(GetLoggedInUserData(username));
+			const userData = await handleFetch({
+				query: GetLoggedInUserData,
+				variables: { username },
+			});
 			return userData;
 		};
 		const username = await getUsername();

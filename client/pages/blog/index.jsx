@@ -62,7 +62,7 @@ const Blogs = ({ data }) => {
 export default Blogs;
 
 export const getStaticProps = async () => {
-	const data = await handleFetch(GetAllBlogs);
+	const data = await handleFetch({ query: GetAllBlogs });
 	return {
 		props: {
 			data,
