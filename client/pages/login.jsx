@@ -3,7 +3,7 @@ import Input from "@components/Input";
 import Link from "next/link";
 import UserContext from "@lib/userContext";
 import Loading from "@components/Loading";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { handleFetch } from "@lib/handleFetch";
 import { LoginUser } from "@lib/queries";
 import { getUserFromLocalCookie, setToken } from "@lib/auth";
@@ -17,8 +17,12 @@ const Login = () => {
 	const [isLoginError, setIsLoginError] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const { setUser } = useContext(UserContext);
+	const { user, setUser } = useContext(UserContext);
 	const router = useRouter();
+
+	useEffect(() => {
+		if (user) router.push("/");
+	}, []);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();

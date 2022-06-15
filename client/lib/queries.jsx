@@ -204,30 +204,6 @@ export const GetUser = /* GraphQL */ `
 							}
 						}
 					}
-					blogs {
-						data {
-							attributes {
-								title
-								slug
-								excerpt
-								createdAt
-								tags {
-									data {
-										attributes {
-											tag
-										}
-									}
-								}
-								cover {
-									data {
-										attributes {
-											formats
-										}
-									}
-								}
-							}
-						}
-					}
 				}
 			}
 		}
@@ -350,7 +326,6 @@ export const CreateUser = /* GraphQL */ `
 		$password: String!
 		$firstName: String!
 		$lastName: String!
-		$enrollmentNumber: String!
 		$branch: String!
 		$bio: String!
 		$startYear: String!
@@ -367,7 +342,6 @@ export const CreateUser = /* GraphQL */ `
 				password: $password
 				firstName: $firstName
 				lastName: $lastName
-				enrollmentNumber: $enrollmentNumber
 				branch: $branch
 				bio: $bio
 				startYear: $startYear
@@ -383,6 +357,110 @@ export const CreateUser = /* GraphQL */ `
 				attributes {
 					username
 				}
+			}
+		}
+	}
+`;
+
+export const DeleteUser = /* GraphQL */ `
+	mutation ($id: ID!) {
+		deleteUsersPermissionsUser(id: $id) {
+			data {
+				id
+			}
+		}
+	}
+`;
+
+export const GetBlogsOfUser = /* GraphQL */ `
+	query ($username: String!) {
+		blogs(filters: { user: { username: { eq: $username } } }) {
+			data {
+				attributes {
+					title
+					slug
+					excerpt
+					cover {
+						data {
+							attributes {
+								formats
+							}
+						}
+					}
+					createdAt
+					tags {
+						data {
+							attributes {
+								tag
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+`;
+
+export const GetBlogsIdsOfUser = /* GraphQL */ `
+	query ($username: String!) {
+		blogs(filters: { user: { username: { eq: $username } } }) {
+			data {
+				id
+			}
+		}
+	}
+`;
+
+export const UpdateUserAvatar = /* GraphQL */ `
+	mutation ($userId: ID!, $avatarId: ID!) {
+		updateUsersPermissionsUser(id: $userId, data: { avatar: $avatarId }) {
+			data {
+				id
+			}
+		}
+	}
+`;
+
+export const UpdateUserProfile = /* GraphQL */ `
+	mutation (
+		$id: ID!
+		$firstName: String!
+		$lastName: String!
+		$username: String!
+		$branch: String!
+		$bio: String!
+		$type: ENUM_USERSPERMISSIONSUSER_TYPE!
+		$startYear: String!
+		$graduationYear: String!
+	) {
+		updateUsersPermissionsUser(
+			id: $id
+			data: {
+				firstName: $firstName
+				lastName: $lastName
+				username: $username
+				branch: $branch
+				bio: $bio
+				startYear: $startYear
+				graduationYear: $graduationYear
+				type: $type
+			}
+		) {
+			data {
+				id
+				attributes {
+					username
+				}
+			}
+		}
+	}
+`;
+
+export const DeleteBlog = /* GraphQL */ `
+	mutation ($id: ID!) {
+		deleteBlog(id: $id) {
+			data {
+				id
 			}
 		}
 	}

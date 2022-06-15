@@ -71,11 +71,6 @@
       "type": "string",
       "required": true
     },
-    "enrollmentNumber": {
-      "type": "string",
-      "required": true,
-      "unique": true
-    },
     "branch": {
       "type": "string",
       "required": true

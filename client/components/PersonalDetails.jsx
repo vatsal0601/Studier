@@ -5,7 +5,6 @@ import { ExclamationCircleIcon } from "@heroicons/react/solid";
 
 const PersonalDetails = ({
 	avatarDetails,
-	enrollmentNumberDetails,
 	branchDetails,
 	bioDetails,
 	typeDetails,
@@ -36,13 +35,6 @@ const PersonalDetails = ({
 						</p>
 					)}
 				</div>
-				<Input
-					input={enrollmentNumberDetails}
-					isRequired={true}
-					name="enrollment-number"
-					placeholder="Enrollment Number"
-					type="text"
-				/>
 				<Input input={branchDetails} name="branch" placeholder="Branch" type="text" />
 				<div>
 					<label

@@ -246,7 +246,7 @@ const Blog = ({ blog }) => {
 					<section className="prose prose-zinc mx-auto prose-a:font-semibold prose-a:decoration-blue-600 prose-a:underline-offset-4 hover:prose-a:decoration-2 prose-img:rounded-lg lg:prose-lg">
 						<Markdown content={blogData.content} />
 					</section>
-					{blogData.tags.data && (
+					{blogData.tags.data.length > 0 && (
 						<section className="mx-auto max-w-prose border-t border-zinc-200 lg:text-lg">
 							<div className="space-y-1 pt-3 lg:space-y-3 lg:pt-5">
 								<p className="text-sm font-semibold text-zinc-600 lg:text-base">

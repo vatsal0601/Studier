@@ -4,8 +4,9 @@ import UniversitySelection from "@components/UniversitySelection";
 import UserRegistrationDetails from "@components/UserRegistrationDetails";
 import PersonalDetails from "@components/PersonalDetails";
 import Link from "next/link";
+import UserContext from "@lib/userContext";
 import { Transition } from "@headlessui/react";
-import { useState, Fragment, useEffect } from "react";
+import { useState, Fragment, useEffect, useContext } from "react";
 import { ArrowSmLeftIcon } from "@heroicons/react/solid";
 import { handleFetch } from "@lib/handleFetch";
 import { CheckEmail, CheckUsername, CreateUser, GetListOfUniversities } from "@lib/queries";
@@ -17,6 +18,12 @@ const Register = ({ universities }) => {
 	const listOfUniversities = universities.data.map((university) => university.attributes.name);
 	const MaxSteps = 3;
 	const router = useRouter();
+
+	const { user } = useContext(UserContext);
+
+	useEffect(() => {
+		if (user) router.push("/");
+	}, []);
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [step, setStep] = useState(1);
@@ -44,7 +51,6 @@ const Register = ({ universities }) => {
 		isRequired: true,
 		password: passwordDetails.value,
 	});
-	const enrollmentNumberDetails = useValidate({ isRequired: true });
 	const branchDetails = useValidate({ regex: /^[a-zA-z ]+$/, isRequired: true });
 	const bioDetails = useValidate({});
 	const startYearDetails = useValidate({ isRequired: true, startYear: 1900, endYear: 2999 });
@@ -101,11 +107,6 @@ const Register = ({ universities }) => {
 			setIsFileError(true);
 			return;
 		}
-		if (enrollmentNumberDetails.value.trim() === "" || enrollmentNumberDetails.errorMessage) {
-			if (!enrollmentNumberDetails.errorMessage.length > 0)
-				enrollmentNumberDetails.setErrorMessage("This field is required");
-			return;
-		}
 		if (branchDetails.value.trim() === "" || branchDetails.errorMessage) {
 			if (!branchDetails.errorMessage.length > 0)
 				branchDetails.setErrorMessage("This field is required");
@@ -138,7 +139,7 @@ const Register = ({ universities }) => {
 		};
 
 		const sendData = async (imageId) => {
-			const data = await handleFetch({
+			await handleFetch({
 				query: CreateUser,
 				variables: {
 					username: username,
@@ -146,7 +147,6 @@ const Register = ({ universities }) => {
 					password: passwordDetails.value,
 					firstName: firstNameDetails.value,
 					lastName: lastNameDetails.value,
-					enrollmentNumber: enrollmentNumberDetails.value,
 					branch: branchDetails.value,
 					bio: bioDetails.value,
 					startYear: startYearDetails.value,
@@ -157,7 +157,6 @@ const Register = ({ universities }) => {
 					avatar: imageId,
 				},
 			});
-			console.log(data);
 		};
 
 		setIsLoading(true);
@@ -434,7 +433,6 @@ const Register = ({ universities }) => {
 										isFileError,
 										setIsFileError,
 									}}
-									enrollmentNumberDetails={enrollmentNumberDetails}
 									branchDetails={branchDetails}
 									bioDetails={bioDetails}
 									typeDetails={{ availableTypes, type, setType }}

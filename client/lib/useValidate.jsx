@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
-export const useValidate = ({ regex, isRequired, password, startYear, endYear }) => {
-	const [value, setValue] = useState("");
+export const useValidate = ({ regex, isRequired, password, startYear, endYear, initialValue }) => {
+	const [value, setValue] = useState(initialValue ?? "");
 	const [errorMessage, setErrorMessage] = useState("");
 	const didMount = useRef(false); // Used to make use effect run only after initial render (note: disable strict mode in react to see it in action)
 
