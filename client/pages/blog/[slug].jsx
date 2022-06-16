@@ -3,11 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import Markdown from "@components/Markdown";
 import UserContext from "@lib/userContext";
+import Loading from "@components/Loading";
 import { useContext, useEffect, useState } from "react";
 import { handleFetch } from "@lib/handleFetch";
 import {
 	CreateBookmark,
 	CreateLike,
+	DeleteBlog,
 	DeleteBookmark,
 	DeleteLike,
 	GetAllBlogSlugs,
@@ -18,9 +20,10 @@ import { HeartIcon, BookmarkIcon } from "@heroicons/react/outline";
 import {
 	HeartIcon as HeartIconSolid,
 	BookmarkIcon as BookmarkIconSolid,
+	TrashIcon,
 } from "@heroicons/react/solid";
-import Loading from "@components/Loading";
 import { getTokenFromLocalCookie } from "@lib/auth";
+import { useRouter } from "next/router";
 
 const Blog = ({ blog }) => {
 	const blogData = blog.attributes;
@@ -32,9 +35,11 @@ const Blog = ({ blog }) => {
 	const [isBookmarkLoading, setIsBookmarkLoading] = useState(true);
 	const [isLiked, setIsLiked] = useState(null);
 	const [isLikeLoading, setIsLikeLoading] = useState(true);
+	const [isDeleting, setIsDeleting] = useState(false);
 	const formatedDate = new Date(blogData.createdAt);
 
 	const { user } = useContext(UserContext);
+	const router = useRouter();
 
 	useEffect(() => {
 		if (user) {
@@ -131,11 +136,35 @@ const Blog = ({ blog }) => {
 		}
 	};
 
+	const handleDelete = async () => {
+		setIsDeleting(true);
+		await handleFetch({ query: DeleteBlog, variables: { id: blog.id } });
+		setIsDeleting(false);
+		router.push("/");
+	};
+
 	return (
 		<>
 			<Head title={blogData.title} description={blogData.excerpt} />
 			<main>
 				<article className="container space-y-8 pb-96 pt-24 lg:space-y-16 lg:pb-64 lg:pt-32">
+					{user.username === blogData.user.data.attributes.username && (
+						<div className="text-right">
+							<button
+								disabled={isDeleting}
+								onClick={handleDelete}
+								className="inline-flex items-center gap-1 rounded-lg bg-red-600 px-2 py-1 text-sm font-semibold text-white active:bg-red-700 lg:text-base">
+								<span>
+									{isDeleting ? (
+										<Loading className="h-5 w-5 text-white" />
+									) : (
+										<TrashIcon className="h-5 w-5" />
+									)}
+								</span>
+								<span>{isDeleting ? "Deleting..." : "Delete Blog"}</span>
+							</button>
+						</div>
+					)}
 					<section className="space-y-8 lg:space-y-16">
 						<div className="space-y-3 self-center lg:space-y-5">
 							<h1 className="text-center text-4xl font-bold tracking-tighter text-blue-600 lg:text-5xl">

@@ -34,7 +34,7 @@ const Toast = ({ type, message }) => {
 
 	return (
 		<>
-			<div className="fixed right-0 top-16 z-40 w-full space-y-3 px-5 md:right-5 md:top-20 md:w-96 md:px-0">
+			<div className="fixed right-0 top-16 z-40 w-full space-y-3 px-5 md:right-5 md:top-24 md:w-96 md:px-0">
 				<Transition
 					as="button"
 					show={isShowing}

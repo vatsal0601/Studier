@@ -309,6 +309,16 @@ export const CheckEmail = /* GraphQL */ `
 	}
 `;
 
+export const CheckTitle = /* GraphQL */ `
+	query ($title: String!) {
+		blogs(filters: { title: { eq: $title } }) {
+			data {
+				id
+			}
+		}
+	}
+`;
+
 export const UploadImage = /* GraphQL */ `
 	mutation ($file: Upload!) {
 		upload(file: $file) {
@@ -450,6 +460,26 @@ export const UpdateUserProfile = /* GraphQL */ `
 				id
 				attributes {
 					username
+				}
+			}
+		}
+	}
+`;
+
+export const CreateBlog = /* GraphQL */ `
+	mutation ($title: String!, $excerpt: String!, $content: String!, $userId: ID!, $coverId: ID!) {
+		createBlog(
+			data: {
+				title: $title
+				excerpt: $excerpt
+				content: $content
+				cover: $coverId
+				user: $userId
+			}
+		) {
+			data {
+				attributes {
+					slug
 				}
 			}
 		}

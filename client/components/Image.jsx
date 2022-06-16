@@ -56,7 +56,7 @@ const Image = ({ file, setFile, setIsFileError }) => {
 						</label>
 					</p>
 					{fileExtensionError && (
-						<p className="text-red-600">You can only upload single image</p>
+						<p className="text-red-600">You can upload only image</p>
 					)}
 				</div>
 			)}

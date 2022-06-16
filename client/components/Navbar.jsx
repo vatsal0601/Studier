@@ -44,7 +44,7 @@ const Navbar = ({ toggle }) => {
 			<nav className="container flex items-center justify-between py-3" role="navigation">
 				<div className="flex items-center gap-10 lg:gap-16">
 					<Link href="/">
-						<a className="text-3xl font-bold tracking-tighter text-zinc-900 transition-colors active:text-blue-600 lg:text-4xl">
+						<a className="p-1 text-3xl font-bold tracking-tighter text-zinc-900 transition-colors active:text-blue-600 lg:text-4xl">
 							Studier
 						</a>
 					</Link>
@@ -71,7 +71,7 @@ const Navbar = ({ toggle }) => {
 					<ul className="hidden items-center gap-3 md:flex lg:gap-5">
 						<li>
 							<Link href={`/profile/${user.username}`}>
-								<a className="inline-flex items-center gap-2">
+								<a className="inline-flex items-center gap-2 p-1">
 									<span
 										className={`h-10 w-10 flex-shrink-0 rounded-full bg-zinc-300 lg:h-12 lg:w-12 ${
 											isAvatarLoading && "animate-pulse"

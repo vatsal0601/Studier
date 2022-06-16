@@ -2,9 +2,22 @@ import Link from "next/link";
 import { useState } from "react";
 import { ExclamationCircleIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 
-const Input = ({ type, name, placeholder, isRequired, forgotPassword, input, handleEmail }) => {
+const Input = ({
+	type,
+	name,
+	placeholder,
+	isRequired,
+	forgotPassword,
+	input,
+	handleEmail,
+	handleTitle,
+}) => {
 	const { value, setValue, errorMessage } = input;
 	const [passwordType, setPasswordType] = useState("password");
+	let validator;
+
+	if (handleEmail) validator = handleEmail;
+	if (handleTitle) validator = handleTitle;
 
 	return (
 		<div>
@@ -33,7 +46,7 @@ const Input = ({ type, name, placeholder, isRequired, forgotPassword, input, han
 					placeholder={placeholder}
 					onChange={(e) => setValue(e.target.value)}
 					value={value}
-					onBlur={handleEmail ? handleEmail : () => {}}
+					onBlur={validator ? validator : () => {}}
 					className="focus:ring-3 w-full truncate rounded-lg border-zinc-300 p-3 text-sm placeholder-zinc-400 ring-blue-600 transition-all focus:outline-none lg:text-base"
 				/>
 				{forgotPassword &&
