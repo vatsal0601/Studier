@@ -208,6 +208,8 @@ const Profile = ({ user }) => {
 			query: UpdateUserAvatar,
 			variables: { userId: userContext.id, avatarId: imageId },
 		});
+		setChangeAvatar(false);
+		router.reload();
 	};
 
 	return (

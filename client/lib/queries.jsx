@@ -495,3 +495,23 @@ export const DeleteBlog = /* GraphQL */ `
 		}
 	}
 `;
+
+export const UpdateBlog = /* GraphQL */ `
+	mutation ($id: ID!, $title: String!, $excerpt: String!, $content: String!) {
+		updateBlog(id: $id, data: { excerpt: $excerpt, title: $title, content: $content }) {
+			data {
+				id
+			}
+		}
+	}
+`;
+
+export const UpdateBlogCover = /* GraphQL */ `
+	mutation ($id: ID!, $coverId: ID!) {
+		updateBlog(id: $id, data: { cover: $coverId }) {
+			data {
+				id
+			}
+		}
+	}
+`;
