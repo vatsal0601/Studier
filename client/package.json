@@ -1,37 +1,40 @@
 {
-  "name": "client",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@headlessui/react": "^1.6.4",
-    "@heroicons/react": "^1.0.6",
-    "axios": "^0.27.2",
-    "cookie": "^0.5.0",
-    "dotenv": "^16.0.1",
-    "js-cookie": "^3.0.1",
-    "next": "12.1.6",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
-    "react-markdown": "^8.0.3",
-    "rehype-prism-plus": "^1.4.0",
-    "rehype-slug": "^5.0.1",
-    "remark-gfm": "^3.0.1"
-  },
-  "devDependencies": {
-    "@tailwindcss/forms": "^0.5.2",
-    "@tailwindcss/line-clamp": "^0.4.0",
-    "@tailwindcss/typography": "^0.5.2",
-    "autoprefixer": "^10.4.7",
-    "eslint": "8.16.0",
-    "eslint-config-next": "12.1.6",
-    "postcss": "^8.4.14",
-    "prettier-plugin-tailwindcss": "^0.1.11",
-    "tailwindcss": "^3.0.24"
-  }
+	"name": "client",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@headlessui/react": "^1.6.4",
+		"@heroicons/react": "^1.0.6",
+		"axios": "^0.27.2",
+		"cookie": "^0.5.0",
+		"dotenv": "^16.0.1",
+		"js-cookie": "^3.0.1",
+		"next": "12.1.6",
+		"react": "18.1.0",
+		"react-dom": "18.1.0",
+		"react-markdown": "^8.0.3",
+		"rehype-prism-plus": "^1.4.0",
+		"rehype-slug": "^5.0.1",
+		"remark-gfm": "^3.0.1"
+	},
+	"devDependencies": {
+		"@tailwindcss/forms": "^0.5.2",
+		"@tailwindcss/line-clamp": "^0.4.0",
+		"@tailwindcss/typography": "^0.5.2",
+		"autoprefixer": "^10.4.7",
+		"eslint": "8.16.0",
+		"eslint-config-next": "12.1.6",
+		"postcss": "^8.4.14",
+		"prettier-plugin-tailwindcss": "^0.1.11",
+		"tailwindcss": "^3.0.24"
+	},
+	"browser": {
+		"cookie": false
+	}
 }

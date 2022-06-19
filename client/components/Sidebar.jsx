@@ -5,7 +5,6 @@ import { Fragment, useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { XIcon } from "@heroicons/react/solid";
 import { Transition } from "@headlessui/react";
-import { removeToken } from "@lib/auth";
 
 const pageLinks = [
 	{ name: "Home", link: "/" },
@@ -21,7 +20,7 @@ const Sidebar = ({ isOpen, toggle }) => {
 
 	const handleLogout = () => {
 		setUser(null);
-		removeToken();
+		// removeToken();
 		toggle();
 	};
 
@@ -50,22 +49,7 @@ const Sidebar = ({ isOpen, toggle }) => {
 				</Link>
 
 				<ul className="flex w-full flex-col items-start gap-3 py-5 text-lg font-semibold">
-					{pageLinks.map(({ name, link }, index) => (
-						<li key={index}>
-							<Link href={link}>
-								<a
-									onClick={toggle}
-									className={`${
-										router.pathname == link
-											? "font-semibold text-zinc-900"
-											: "font-normal text-zinc-600"
-									} rounded-lg py-1 px-1 transition-colors hover:bg-blue-100 active:text-blue-600`}>
-									{name}
-								</a>
-							</Link>
-						</li>
-					))}
-					{user ? (
+					{user && (
 						<li className="flex w-full items-center justify-between gap-3">
 							<Link href={`/profile/${user.username}`}>
 								<a onClick={toggle} className="inline-flex items-center gap-2">
@@ -74,7 +58,7 @@ const Sidebar = ({ isOpen, toggle }) => {
 											isAvatarLoading && "animate-pulse"
 										}`}>
 										<Image
-											src={`http://localhost:1337${user.avatar.data.attributes.formats.thumbnail.url}`}
+											src={`http://localhost:1337${user.avatar}`}
 											alt={user.username}
 											width="1"
 											height="1"
@@ -101,7 +85,23 @@ const Sidebar = ({ isOpen, toggle }) => {
 								</button>
 							</div>
 						</li>
-					) : (
+					)}
+					{pageLinks.map(({ name, link }, index) => (
+						<li key={index}>
+							<Link href={link}>
+								<a
+									onClick={toggle}
+									className={`${
+										router.pathname == link
+											? "font-semibold text-zinc-900"
+											: "font-normal text-zinc-600"
+									} rounded-lg py-1 px-1 transition-colors hover:bg-blue-100 active:text-blue-600`}>
+									{name}
+								</a>
+							</Link>
+						</li>
+					))}
+					{!user && (
 						<>
 							<li>
 								<Link href="/login">

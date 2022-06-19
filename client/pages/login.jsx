@@ -4,9 +4,6 @@ import Link from "next/link";
 import UserContext from "@lib/userContext";
 import Loading from "@components/Loading";
 import { useState, useContext, useEffect } from "react";
-import { handleFetch } from "@lib/handleFetch";
-import { LoginUser } from "@lib/queries";
-import { getUserFromLocalCookie, setToken } from "@lib/auth";
 import { ExclamationCircleIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { useValidate } from "@lib/useValidate";
@@ -40,20 +37,22 @@ const Login = () => {
 		}
 
 		const sendData = async () => {
-			const jwtData = await handleFetch({
-				query: LoginUser,
-				variables: { identifier: identifierDetails.value, password: passwordDetails.value },
+			setIsLoading(true);
+			const req = await fetch("/api/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					identifier: identifierDetails.value,
+					password: passwordDetails.value,
+				}),
 			});
-			if (jwtData) {
-				setToken(jwtData.login.jwt);
-				const userData = await getUserFromLocalCookie();
-				setUser({
-					id: userData.usersPermissionsUsers.data[0].id,
-					...userData.usersPermissionsUsers.data[0].attributes,
-				});
+			const data = await req.json();
+			if (data.error) setIsLoginError(true);
+			else {
+				setUser(data.user);
 				router.push("/");
-			} else {
-				setIsLoginError(true);
 			}
 			setIsLoading(false);
 		};

@@ -109,25 +109,14 @@ export const GetBlog = /* GraphQL */ `
 	}
 `;
 
-export const GetLoggedInUserUsername = /* GraphQL */ `
-	query {
-		me {
-			username
-		}
-	}
-`;
-
 export const GetLoggedInUserData = /* GraphQL */ `
-	query ($username: String!) {
-		usersPermissionsUsers(filters: { username: { eq: $username } }) {
+	query ($id: ID!) {
+		usersPermissionsUser(id: $id) {
 			data {
-				id
 				attributes {
 					firstName
 					lastName
 					username
-					email
-					type
 					avatar {
 						data {
 							attributes {
@@ -145,6 +134,9 @@ export const LoginUser = /* GraphQL */ `
 	mutation ($identifier: String!, $password: String!) {
 		login(input: { identifier: $identifier, password: $password }) {
 			jwt
+			user {
+				id
+			}
 		}
 	}
 `;

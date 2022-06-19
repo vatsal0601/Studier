@@ -5,7 +5,6 @@ import ProgressBar from "./Progressbar";
 import { useRouter } from "next/router";
 import { useState, useEffect, useContext } from "react";
 import { MenuAlt2Icon } from "@heroicons/react/solid";
-import { removeToken } from "@lib/auth";
 
 const pageLinksLeft = [
 	{ name: "Home", link: "/" },
@@ -32,7 +31,7 @@ const Navbar = ({ toggle }) => {
 
 	const handleLogout = () => {
 		setUser(null);
-		removeToken();
+		// removeToken();
 	};
 
 	return (
@@ -77,7 +76,7 @@ const Navbar = ({ toggle }) => {
 											isAvatarLoading && "animate-pulse"
 										}`}>
 										<Image
-											src={`http://localhost:1337${user.avatar.data.attributes.formats.thumbnail.url}`}
+											src={`http://localhost:1337${user.avatar}`}
 											alt={user.username}
 											width="1"
 											height="1"
