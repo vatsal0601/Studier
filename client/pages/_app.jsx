@@ -41,12 +41,15 @@ const App = ({ Component, pageProps, userData }) => {
 export default App;
 
 App.getInitialProps = async (context) => {
+	console.log(context);
 	let userData = null;
 	try {
 		userData = await fetch("http://localhost:3000/api/login");
 		userData = await userData.json();
+		console.log(userData);
+		if (userData?.error) userData = null;
 	} catch (err) {
 		userData = null;
 	}
-	return { userData };
+	return { userData: null };
 };

@@ -13,10 +13,15 @@ export const getUserData = async (id) => {
 	};
 };
 
-export const login = async (req) => {
-	const { login } = await handleFetch({
-		query: LoginUser,
-		variables: { identifier: req.body.identifier, password: req.body.password },
-	});
-	return { jwt: login.jwt, id: login.user.id };
+export const login = async (req, res) => {
+	try {
+		const { login } = await handleFetch({
+			query: LoginUser,
+			variables: { identifier: req.body.identifier, password: req.body.password },
+		});
+		return { jwt: login.jwt, id: login.user.id };
+	} catch (err) {
+		res.statusCode = 401;
+		return res.json({ error: true });
+	}
 };
